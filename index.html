@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>You Got Fragged</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      background: black;
+      color: white;
+      font-family: 'Arial', sans-serif;
+    }
+
+    video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      display: none;
+    }
+
+    #enter-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 2rem 4rem;
+      font-size: 2rem;
+      font-family: sans-serif;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    #enter-button:hover {
+      background-color: rgba(0, 0, 0, 0.9);
+    }
+
+    .centered-text {
+      position: absolute;
+      top: 30%;
+      left: 30%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      font-size: 2rem;
+      font-weight: bold;
+      color: #ff4444;
+      text-shadow: 3px 3px 10px rgba(255, 0, 0, 0.7);
+      animation: spin 3s linear infinite;
+      white-space: nowrap;
+    }
+
+    @keyframes spin {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    .me-rn {
+      position: absolute;
+      bottom: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 3rem;
+      font-weight: bold;
+      color: #00ffff;
+      text-shadow: 2px 2px 5px rgba(0, 255, 255, 0.7);
+      animation: pulse 0.2345s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.1); }
+    }
+
+    .mc-text {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      top: 70%;
+      font-size: 3rem;
+      font-weight: bold;
+      color: #00ff00;
+      opacity: 0;
+      text-shadow: 2px 2px 5px rgba(0, 255, 0, 0.7);
+    }
+
+    @keyframes pop {
+      0% { opacity: 0; transform: scale(0.8); }
+      10% { opacity: 1; transform: scale(1); }
+      90% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(1.2); }
+    }
+
+    .question-mark {
+      position: absolute;
+      top: 20%;
+      left: 70%;
+      transform: translateX(-50%);
+      font-size: 10rem;
+      font-weight: bold;
+      color: #ff00ff;
+      text-shadow: 3px 3px 10px rgba(255, 0, 255, 0.7);
+      animation: pulse 0.464s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    @keyframes confettiFall {
+      0% { transform: translateY(-100px); opacity: 1; }
+      100% { transform: translateY(calc(100vh + 100px)); opacity: 0; }
+    }
+
+    #visitor-count {
+      position: absolute;
+      bottom: 10%;
+      left: 20%;
+      transform: translateX(-50%);
+      font-size: 1.5rem;
+      color: black;
+      font-weight: bold;
+      text-shadow: 2px 2px 5px rgba(255, 204, 0, 0.7);
+    }
+  </style>
+</head>
+<body>
+
+  <video id="bg-video" loop playsinline muted>
+    <source src="soldier_dance.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <button id="enter-button">Enter</button>
+
+  <div class="centered-text" style="display: none;">YOU GOT FRAGGED BY CUPPAJOEMAN</div>
+  <div class="me-rn" style="display: none;">me rn</div>
+  <div class="mc-text" id="mc-text"></div>
+  <div class="question-mark" style="display: none;">???</div>
+  
+  <!-- Visitor count display -->
+  <div id="visitor-count">Num Fragged: Loading...</div>
+
+  <script src="https://cdn.counter.dev/script.js" data-id="6084a15f-e10c-4e15-b0e5-90e880dfd27b" data-utcoffset="-4"></script>
+
+  <script>
+    const button = document.getElementById('enter-button');
+    const video = document.getElementById('bg-video');
+    const spinText = document.querySelector('.centered-text');
+    const meRnText = document.querySelector('.me-rn');
+    const mcText = document.getElementById('mc-text');
+    const questionMark = document.querySelector('.question-mark');
+    const visitorCountElement = document.getElementById('visitor-count');
+
+    button.addEventListener('click', () => {
+      video.style.display = 'block';
+      video.muted = false;
+      video.play().catch(err => console.error("Playback failed:", err));
+      button.style.display = 'none';
+      spinText.style.display = 'block';
+      meRnText.style.display = 'block';
+      questionMark.style.display = 'block';
+      startConfetti(); // Start confetti effect
+    });
+
+    // Confetti effect function
+    function startConfetti() {
+      const confettiCount = 30; // Reduced number of confetti
+      
+      // Set interval to continuously add confetti
+      setInterval(() => {
+        for (let i = 0; i < confettiCount; i++) {
+          const confetti = document.createElement('div');
+          confetti.style.position = 'absolute';
+          confetti.style.width = `${Math.random() * 10 + 5}px`;
+          confetti.style.height = `${Math.random() * 10 + 5}px`;
+          confetti.style.backgroundColor = getRandomColor();
+          confetti.style.opacity = '0.8';
+          confetti.style.borderRadius = '50%';
+          confetti.style.animation = `confettiFall ${Math.random() * 5 + 2}s linear infinite`;
+          confetti.style.left = `${Math.random() * window.innerWidth}px`;
+          confetti.style.top = `-10px`; // Start from the top of the screen
+          document.body.appendChild(confetti);
+
+          // Remove confetti after it falls
+          setTimeout(() => {
+            confetti.remove();
+          }, 5000); // Confetti will fall and be removed after 5 seconds
+        }
+      }, 150); // Adjust this value for how often new confetti is generated (in milliseconds)
+    }
+
+    // Generate a random color for confetti
+    function getRandomColor() {
+      const letters = '0123456789ABCDEF';
+      let color = '#';
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+
+    // Display the current visitor count
+    const updateVisitorCount = () => {
+      // Assuming counter.dev provides the visitor count in a global variable
+      if (window.counter) {
+        const visitorCount = window.counter.count;
+        visitorCountElement.textContent = `Num Fragged: ${visitorCount}`;
+      }
+    };
+
+    // Update the visitor count on page load and every 30 seconds
+    window.onload = updateVisitorCount;
+    setInterval(updateVisitorCount, 30000);
+  </script>
+
+</body>
+</html>
